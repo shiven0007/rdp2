@@ -1,0 +1,26 @@
+name: Windows - ChromeRemoteDesktop
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Set Up Chrome Remote Desktop
+    runs-on: windows-2022-gpu
+    timeout-minutes: 9999
+
+    steps:
+      - name: Downloading & Installing Essentials
+        run: |
+          Invoke-WebRequest -Uri "https://gitlab.com/chamod12/lm_win-10_github_rdp/-/raw/main/Downloads.bat" -OutFile "Downloads.bat"
+          cmd /c Downloads.bat
+
+      - name: Start Chrome Remote Desktop Host
+        run: |
+          & "${Env:PROGRAMFILES(X86)}\Google\Chrome Remote Desktop\CurrentVersion\remoting_start_host.exe" `
+          --code="4/0AVMBsJh6nRUXzRNs8ns9hyIAK5hx0dc_8LYZcrkfBb8eINC4AgJg8spDAOm0LUF6hyZM5w" `
+          --redirect-url="https://remotedesktop.google.com/_/oauthredirect" `
+          --name=$Env:COMPUTERNAME
+
+      - name: Time Counter (Optional)
+        run: cmd /c loop.bat
