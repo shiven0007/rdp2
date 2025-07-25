@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     name: Start Building...
-    runs-on: windows-2022-gpu
+    runs-on: windows-latest
     timeout-minutes: 9999
     
     steps:
@@ -15,14 +15,9 @@ jobs:
           Invoke-WebRequest -Uri "https://gitlab.com/chamod12/lm_win-10_github_rdp/-/raw/main/Downloads.bat" -OutFile "Downloads.bat"
           cmd /c Downloads.bat
 
-      - name: Install LiteManager Free
-        run: |
-          Invoke-WebRequest -Uri "https://litemanager.com/soft/litemanager_free.zip" -OutFile "litemanager.zip"
-          Expand-Archive -Path "litemanager.zip" -DestinationPath "litemanager"
-          Start-Process "litemanager\RMS\Server\RMS.exe" -ArgumentList "/silent"
-
       - name: Connect to LiteManager
         run: cmd /c show.bat
 
       - name: Time Counter
         run: cmd /c loop.bat
+
